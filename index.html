@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ДЗ 2</title>
+</head>
+<body>
+  <script>
+    var a = parseInt(prompt("Введите первое целое число"));
+    var b = parseInt(prompt("Введите второе целое число"));
+
+    if (isNaN(a) || isNaN(b) ) {
+        alert("Нужно вводить числа");
+    } else if (a >= 0 && b >= 0 ) {
+            alert (a-b);
+        } else if (a < 0 && b < 0 ) {
+            alert (a*b);
+        } else alert(a+b);
+
+    var c = parseInt(prompt("Введите число от 0 до 15"));
+    switch (c) {
+        case 0 :
+            alert("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 1 :
+            alert("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 2 :
+            alert("2 3 4 5 6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 3 :
+            alert("3 4 5 6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 4 :
+            alert("4 5 6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 5 :
+            alert("5 6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 6 :
+            alert("6 7 8 9 10 11 12 13 14 15");
+            break;
+        case 7 :
+            alert("7 8 9 10 11 12 13 14 15");
+            break;
+        case 8 :
+            alert("8 9 10 11 12 13 14 15");
+            break;
+        case 9 :
+            alert("9 10 11 12 13 14 15");
+            break;
+        case 10 :
+            alert("10 11 12 13 14 15");
+            break;
+        case 11 :
+            alert("11 12 13 14 15");
+            break;
+        case 12 :
+            alert("12 13 14 15");
+            break;
+        case 13 :
+            alert("13 14 15");
+            break;
+        case 14 :
+            alert("14 15");
+            break;
+        case 15 :
+            alert("15");
+            break;
+        default :
+            alert("Вы что-то не то ввели. Читайте внимательнее.");
+    }
+
+    var d = parseInt(prompt("Введите первое число")) ;
+    var e = parseInt(prompt("Введите второе число"));
+    var f = prompt("Введите тип ооперации : plus - сложение \n" +
+        "minus - вычитание, multiple - умножение, divide - деление");
+    var result ;
+
+
+    result = mathOperation(d, e, f);
+
+    if (isNaN(result)){
+        alert ("Внимательнее, пожалуйста!")
+    } else alert("Ваш результат :" + result);
+
+    alert( power (2, 10));
+
+
+    function mul(x,y) {
+        return (x*y) ;
+    }
+
+    function div(x,y) {
+        return (x/y) ;
+    }
+
+    function add(x,y) {
+        return (x+y) ;
+    }
+
+    function sub(x,y) {
+        return (x-y) ;
+    }
+
+
+    function mathOperation(arg1, arg2, operation){
+        switch (operation){
+            case "plus" :
+                return (add (arg1, arg2 ));
+                break ;
+            case "minus" :
+                return (sub (arg1, arg2));
+                break ;
+            case "multiple" :
+                return (mul (arg1, arg2)) ;
+                break ;
+            case "divide" :
+                return (div (arg1, arg2)) ;
+                break ;
+            default :
+                return (NaN);
+        }
+    }
+    function power(val, pow) {
+        if (pow != 1) {
+            return val * power(val, pow - 1);
+        } else return val;
+    }
+
+
+  </script>
+</body>
+</html>
