@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Задание 2</title>
+</head>
+<body>
+    <script>
+        var n = parseInt(prompt("Введите число"))
+
+        function ifEven(number) {
+            if (number % 2 == 0) return 1;
+        }
+
+
+        document.write("0 - это ноль <br>");
+        var i = 1;
+
+        do {
+            if (ifEven(i)==1 )document.write(i + " - четное число <br>");
+            else document.write(i + " -нечетное число <br>");
+            i++;
+        } while (i <= n);
+    </script>
+</body>
+</html>
