@@ -8,7 +8,7 @@
     <script>
         var n = parseInt(prompt("Введите число"));
 
-        function ifEven(number) {
+        function isEven(number) {
             if (number % 2 == 0) return 1;
         }
 
@@ -17,7 +17,7 @@
         var i = 1;
 
         do {
-            if (ifEven(i)==1 )document.write(i + " - четное число <br>");
+            if (isEven(i)) document.write(i + " - четное число <br>");
             else document.write(i + " -нечетное число <br>");
             i++;
         } while (i <= n);
