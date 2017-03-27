@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Конкурс</title>
+</head>
+<h1>Палиндром</h1>
+<body>
+<script>
+  alert (isPalinrom("level"));
+  alert (isPalinrom("levels"));
+  alert (isPalinrom("A car, a man, a maraca"));
+  alert (isPalinrom("А роза упала на лапу Азора"));
+  alert (isPalinrom("Я с уколов еле волокуся"));
+
+  function isPalinrom(a){a=a.replace(/[ ,]/g,"").toLowerCase();return a==a.split("").reverse().join("");}
+
+</script>
+</body>
+</html>
