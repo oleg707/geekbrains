@@ -1,14 +1,28 @@
 var number = []; // четыре цифры нашего числа
 var attempts = 0; // число попыток
+var archAtt = []; /// Массив попыток
+var archRes = []; /// Массив результатов
+var repeat; ///номер попытки, которую мы хотим псмотреть
 
 generateNumber();
 guessNumber();
+
+while(true) {    ///Выводим прошлые результаты.
+    repeat = parseInt(prompt('Хотите посмотреть свои попытки ? ' +
+        'Тогда введите номер попытки.(Положительное число, иначе выход)'));
+    if (repeat > attempts) {
+        alert('Попыток было всего ' + attempts);
+    } else if (repeat > 0) {
+        alert('Ваша попытка была :' + archAtt[repeat - 1] + ' Ваш результат : Быки - '
+            + archRes[repeat - 1][1] + ', Коровы - ' + archRes[repeat - 1][2]);
+    } else break;
+}
 
 function generateNumber(){
 	number = [];
 	var min = 0;
 	var max = 9;
-	
+
 	// заполняем массив цифр в числе
 	for(var i = 0; i < 4; i++){
 		var part = Math.round(min + Math.random() * (max - min));
@@ -46,8 +60,13 @@ function guessNumber(){
 		}
 		// проверяем число
 		else{
+
+			archAtt.push(result);/// Добавляем попытку в массив попыток.
+
 			var answer = checkNumber(result);
-			
+
+			archRes.push(answer); /// Добавляем результат (который тоже массив) в архив результатов.
+
 			if(answer[0]){
 				// число угадано
 				alert("Поздравляем! Вы угадали число. Кол-во попыток: " + attempts);
@@ -61,6 +80,8 @@ function guessNumber(){
 		}
 	}
 }
+
+
 
 function checkNumber(myresult){
 	// каждая проверка увеличивает кол-во попыток на 1

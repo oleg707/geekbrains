@@ -2,9 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Задание 1</title>
 </head>
 <body>
-$END$
+  <script>
+    var x; var res = {сотни:'',десятки:'',единицы:''};
+
+    while(true) {
+        x = prompt('Введите трехзначное число');
+        if (x >= 0 && x < 1000) break;
+    }
+
+    x = x.split('');
+
+    switch(x.length ) {
+        case 1:
+            x.unshift('0');
+        case 2:
+            x.unshift('0');
+    }
+
+    res.единицы = x[2];
+    res.десятки = x[1];
+    res.сотни = x[0];
+
+    console.log (res);
+    alert('В вашем числе ' + res.сотни + ' сотен, '
+        + res.десятки + ' десятков, ' + res.единицы + ' единиц.');
+
+  </script>
 </body>
 </html>
