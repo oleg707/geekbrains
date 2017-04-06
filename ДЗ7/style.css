@@ -8,6 +8,11 @@
   border: 1px solid green;
 }
 
+#result {
+  width: 150px;
+  text-align: center;
+}
+
 #snake-start, #snake-renew {
   width: 150px;
   padding: 15px;
@@ -36,4 +41,8 @@ td.game-table-cell {
 
 .food-unit {
   background: red;
+}
+
+.barriers {
+  background: black;
 }

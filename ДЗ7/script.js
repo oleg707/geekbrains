@@ -1,14 +1,18 @@
 var FIELD_SIZE_X = 20;
 var FIELD_SIZE_Y = 20;
-var SNAKE_SPEED = 300;
-var NEW_FOOD_TIME = 5000;
-
+var SNAKE_SPEED = 200;
+var NEW_FOOD_TIME = 1500;
+var NEW_BARRIER_TIME = 5000;
+var barrier;
 var isGameRunning = false;
 var snakeTimer;
 var snake = [];
 var direction = 'x-';
+var count = 0;
+var resultTxt ;
 
 function init() {
+  resultTXT = document.getElementById('result');
   var startButton = document.getElementById('snake-start');
   startButton.addEventListener('click', startGame);
 
@@ -72,17 +76,22 @@ function startGame() {
     for(var i = 0; i < FIELD_SIZE_X; i++) {
         for(var j = 0; j < FIELD_SIZE_Y; j++) {
             var cell2 = document.getElementsByClassName('cell-' + i + '-' + j)[0];
-            cell2.classList.remove('snake-unit', 'food-unit');
+            cell2.classList.remove('snake-unit', 'food-unit', 'barriers');
         }
     }
 
+  direction = 'x-';
+  count = 0;
+
   respawn();
 
-  if(isGameRunning) {
+  if(!isGameRunning) {
       snakeTimer = setInterval(move, SNAKE_SPEED);
-      setTimeout(createFood, NEW_FOOD_TIME);
+      isGameRunning = true;
   }
-    isGameRunning = true;
+      setTimeout(createFood, NEW_FOOD_TIME);
+      barrier = setInterval(createBarrier, NEW_BARRIER_TIME );
+      resultTXT.innerHTML = 'Начали';
 
 }
 
@@ -128,7 +137,7 @@ function move() {
       break;
   }
 
-  if(newUnit !== undefined && !newUnit.classList.contains('snake-unit')) {
+  if(newUnit !== undefined && !newUnit.classList.contains('snake-unit') && !newUnit.classList.contains('barriers')) {
     newUnit.classList.add('snake-unit');
     snake.push(newUnit);
 
@@ -137,6 +146,7 @@ function move() {
       removed.classList.remove('snake-unit');
     } else {
       newUnit.classList.remove('food-unit');
+      resultTXT.innerHTML = 'Ваш результат : ' + (snake.length-2);
       createFood();
     }
   } else {
@@ -160,15 +170,29 @@ function createFood() {
   }
 }
 
-function finishGame() {
-  clearInterval(snakeTimer);
-  isGameRunning = false;
+function createBarrier() {
 
-  alert('GAME OVER');
+        var foodX = Math.floor(Math.random() * FIELD_SIZE_X);
+        var foodY = Math.floor(Math.random() * FIELD_SIZE_Y);
+
+        var barrierCell = document.getElementsByClassName('cell-' + foodX + '-' + foodY)[0];
+
+        if(!barrierCell.classList.contains('snake-unit')) {
+            barrierCell.classList.add('barriers');
+            if (++count > 10 ) {
+              var a = document.getElementsByClassName('barriers');
+              var b = Math.floor(Math.random() * a.length);
+              a[b].classList.remove('barriers');
+            }
+        }
 }
 
-/*function refreshGame() {
-  location.reload();
-}*/
+function finishGame() {
+  clearInterval(snakeTimer);
+  clearInterval(barrier);
+  isGameRunning = false;
+  resultTXT.innerHTML = 'Game Over <br> Ваш результат : ' + (snake.length-2);
+
+}
 
 window.onload = init;
