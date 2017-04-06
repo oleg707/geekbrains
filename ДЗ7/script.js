@@ -124,16 +124,16 @@ function move() {
 
   switch(direction) {
     case 'x-':
-      newUnit = document.getElementsByClassName('cell-' + (coordX - 1) + '-' + coordY)[0];
+      newUnit = document.getElementsByClassName('cell-' + (minusCoord(coordX)) + '-' + coordY)[0];
       break;
     case 'x+':
-      newUnit = document.getElementsByClassName('cell-' + (coordX + 1) + '-' + coordY)[0];
+      newUnit = document.getElementsByClassName('cell-' + ((coordX + 1)%FIELD_SIZE_X) + '-' + coordY)[0];
       break;
     case 'y-':
-      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + (coordY - 1))[0];
+      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + (minusCoord(coordY)))[0];
       break;
     case 'y+':
-      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + (coordY + 1))[0];
+      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + ((coordY + 1)%FIELD_SIZE_Y))[0];
       break;
   }
 
@@ -152,6 +152,11 @@ function move() {
   } else {
     finishGame();
   }
+}
+
+function minusCoord(x ){
+  if (x == 0) {return 19
+  } else return (x-- );
 }
 
 function createFood() {
