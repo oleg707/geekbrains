@@ -11,13 +11,13 @@ var direction = 'x-';
 var count = 0;
 var resultTxt ;
 
+//Делаем игру с одной кнопкой старт.Под ней div, куда выводим инфу во время игры.
+
 function init() {
-  resultTXT = document.getElementById('result');
+  resultTXT = document.getElementById('result'); //Сохраняем элкмент для последующего вывода в него информации.
   var startButton = document.getElementById('snake-start');
   startButton.addEventListener('click', startGame);
 
-/*  var renewButton = document.getElementById('snake-renew');
-  renewButton.addEventListener('click', refreshGame);*/
 
   addEventListener('keydown', changeDirection);
 
@@ -73,25 +73,25 @@ function changeDirection(event) {
 
 function startGame() {
 
-    for(var i = 0; i < FIELD_SIZE_X; i++) {
-        for(var j = 0; j < FIELD_SIZE_Y; j++) {
+    for(var i = 0; i < FIELD_SIZE_X; i++) {         //Если это не первая игра - очищаем поле от еды,
+        for(var j = 0; j < FIELD_SIZE_Y; j++) {     //препятствий и змеи.
             var cell2 = document.getElementsByClassName('cell-' + i + '-' + j)[0];
             cell2.classList.remove('snake-unit', 'food-unit', 'barriers');
         }
     }
 
-  direction = 'x-';
-  count = 0;
+  direction = 'x-'; //Устанавливаем направление вверх. Иначе если игра не первая
+  count = 0;        //поедет в ту же сторону где закончили в прошлый раз.
 
   respawn();
 
   if(!isGameRunning) {
-      snakeTimer = setInterval(move, SNAKE_SPEED);
-      isGameRunning = true;
+      snakeTimer = setInterval(move, SNAKE_SPEED);  //Запускаем движение только если игра была остановлена
+      isGameRunning = true;                         //Иначе змея будет ускоряться
   }
       setTimeout(createFood, NEW_FOOD_TIME);
-      barrier = setInterval(createBarrier, NEW_BARRIER_TIME );
-      resultTXT.innerHTML = 'Начали';
+      barrier = setInterval(createBarrier, NEW_BARRIER_TIME ); //Генерируем препятствия
+      resultTXT.innerHTML = 'Начали';                           //Надпись под кнопкой старт.
 
 }
 
@@ -122,21 +122,23 @@ function move() {
   var coordX = parseInt(snakeCoords[1]);
   var coordY = parseInt(snakeCoords[2]);
 
-  switch(direction) {
+  switch(direction) {     //Если достигнуты границы, переход на противоположную сторону.
     case 'x-':
-      newUnit = document.getElementsByClassName('cell-' + (minusCoord(coordX)) + '-' + coordY)[0];
+      if (coordX == 0)coordX = 20;
+      newUnit = document.getElementsByClassName('cell-' + ((coordX) -1) + '-' + coordY)[0];
       break;
     case 'x+':
       newUnit = document.getElementsByClassName('cell-' + ((coordX + 1)%FIELD_SIZE_X) + '-' + coordY)[0];
       break;
     case 'y-':
-      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + (minusCoord(coordY)))[0];
+        if (coordY == 0)coordY = 20;
+      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + ((coordY) -1))[0];
       break;
     case 'y+':
       newUnit = document.getElementsByClassName('cell-' + coordX + '-' + ((coordY + 1)%FIELD_SIZE_Y))[0];
       break;
   }
-
+//не попали ли в змею или барьер. Проверка на undefined оставлена на будущее, так как стенок "больше нет".
   if(newUnit !== undefined && !newUnit.classList.contains('snake-unit') && !newUnit.classList.contains('barriers')) {
     newUnit.classList.add('snake-unit');
     snake.push(newUnit);
@@ -146,17 +148,12 @@ function move() {
       removed.classList.remove('snake-unit');
     } else {
       newUnit.classList.remove('food-unit');
-      resultTXT.innerHTML = 'Ваш результат : ' + (snake.length-2);
+      resultTXT.innerHTML = 'Ваш результат : ' + (snake.length-2); //Увеличиваем счет динамически.
       createFood();
     }
   } else {
     finishGame();
   }
-}
-
-function minusCoord(x ){
-  if (x == 0) {return 19
-  } else return (x-- );
 }
 
 function createFood() {
@@ -175,7 +172,7 @@ function createFood() {
   }
 }
 
-function createBarrier() {
+function createBarrier() { //Создаем препятствия.
 
         var foodX = Math.floor(Math.random() * FIELD_SIZE_X);
         var foodY = Math.floor(Math.random() * FIELD_SIZE_Y);
@@ -184,7 +181,7 @@ function createBarrier() {
 
         if(!barrierCell.classList.contains('snake-unit')) {
             barrierCell.classList.add('barriers');
-            if (++count > 10 ) {
+            if (++count > 10 ) {                    //Если препятствий больше 10 случайно удаляем одно из существующих.
               var a = document.getElementsByClassName('barriers');
               var b = Math.floor(Math.random() * a.length);
               a[b].classList.remove('barriers');
@@ -193,7 +190,7 @@ function createBarrier() {
 }
 
 function finishGame() {
-  clearInterval(snakeTimer);
+  clearInterval(snakeTimer);   //Останавливает игру.
   clearInterval(barrier);
   isGameRunning = false;
   resultTXT.innerHTML = 'Game Over <br> Ваш результат : ' + (snake.length-2);
