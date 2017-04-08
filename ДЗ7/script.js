@@ -179,7 +179,7 @@ function createBarrier() { //Создаем препятствия.
 
         var barrierCell = document.getElementsByClassName('cell-' + foodX + '-' + foodY)[0];
 
-        if(!barrierCell.classList.contains('snake-unit')) {
+        if(!barrierCell.classList.contains('snake-unit') && !barrierCell.classList.contains('food-unit')) {
             barrierCell.classList.add('barriers');
             if (++count > 10 ) {                    //Если препятствий больше 10 случайно удаляем одно из существующих.
               var a = document.getElementsByClassName('barriers');
