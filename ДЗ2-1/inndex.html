@@ -1,98 +1,58 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ДЗ #1</title>
+    <title>Задание 1</title>
 </head>
 
 <body>
 
 <script>
-    /*
-     1. Написать класс для генерации меню. Приватные свойства и методы на Ваше усмотрение. Публичные свойства и методы должны быть следующие:
-     - метод render должен возвращаться HTMLElement созданного меню
-     - свойство id идентификатор внешнего контейнера
-     - класс внешнего контейнера
-     Конструктор класса меню должен принимать на вход массив пунктов меню (объекты вида {title, href})
-     2. Расширить класс меню таким образом, чтобы в качестве пунктов меню могли быть другие меню. Использовать при это наследование
-     */
-
     "use strict";
 
-
-    function Menu(menuItemsArray) {
-
-        this.wrapperId = undefined;
-        this.wrapperClass = undefined;
+    function Menu(listOfItem) {
+       var div = document.createElement('div');
 
         this.render = function () {
-            var div = document.createElement('div');
-            var count = menuItemsArray.length;
             var ul = document.createElement('ul');
-
-            for (var i = 0; i < count; i++) {
-                var li = document.createElement('li');
-                var link = document.createElement('a');
-                link.href = menuItemsArray[i].href;
-                link.appendChild(document.createTextNode(menuItemsArray[i].title));
-                li.appendChild(link);
-                ul.appendChild(li);
-            }
-
             div.appendChild(ul);
-            if (typeof this.wrapperId !== 'undefined') div.setAttribute("id", this.wrapperId);
-            if (typeof this.wrapperClass !== 'undefined') div.setAttribute("class", this.wrapperClass);
 
+            for (var i=0; i <listOfItem.length; i++ ) {
+
+                var li = document.createElement('li');
+                ul.appendChild(li);
+                li.innerHTML = '<a href='+listOfItem[i].href+'>'+listOfItem[i].title+'</a>';
+                li.setAttribute('id', i);
+            }
             return div;
         };
+        this.setClass = function (cls) { div.setAttribute('class', cls)};
+        this.setId = function (id) { div.setAttribute('id', id)};
     }
 
-    function SuperMenu(menuItemsArray) {
+    function SubMenu(listOfSubItem ) {
         Menu.call(this);
 
         this.render = function () {
-            var div = document.createElement('div');
-            var count = menuItemsArray.length;
+            console.log(listOfSubItem[0].length);
+
+            var liSub = document.getElementById(listOfSubItem[1]);
             var ul = document.createElement('ul');
+            liSub.appendChild(ul);
 
-            for (var i = 0; i < count; i++) {
+                for (var i=0; i <listOfSubItem[0].length; i++ ) {
 
-                var li = document.createElement('li');
-
-                if (typeof menuItemsArray[i].title !== 'string') {
-
-                    var ulLevel2 = document.createElement('ul');
-
-                    for (var j = 0; j < menuItemsArray[i].length; j++) {
-                        var li2 = document.createElement('li');
-                        var link2 = document.createElement('a');
-                        link2.href = menuItemsArray[i][j].href;
-                        link2.appendChild(document.createTextNode(menuItemsArray[i][j].title));
-                        li2.appendChild(link2);
-                        ulLevel2.appendChild(li2);
-                    }
-
-                    ul.appendChild(ulLevel2);
-
-                } else {
-                    var link = document.createElement('a');
-                    link.href = menuItemsArray[i].href;
-                    link.appendChild(document.createTextNode(menuItemsArray[i].title));
-                    li.appendChild(link);
+                    var li = document.createElement('li');
                     ul.appendChild(li);
+                    li.innerHTML = '<a href='+listOfSubItem[0][i].href+'>'+listOfSubItem[0][i].title+'</a>';
+                    li.setAttribute('id', (listOfSubItem[1] + i));
                 }
-            }
-
-            div.appendChild(ul);
-            if (typeof this.wrapperId !== 'undefined') div.setAttribute("id", this.wrapperId);
-            if (typeof this.wrapperClass !== 'undefined') div.setAttribute("class", this.wrapperClass);
-
-            return div;
-        };
+                return div();
+            };
     }
 
     // Одноуровневое меню
-    var firstMenu = new Menu(
+    var myMenu = new Menu(
         [
             {title: "item1", href: "#"},
             {title: "item2", href: "#"},
@@ -100,30 +60,32 @@
         ]
     );
 
-    firstMenu.wrapperClass = "className";
-    firstMenu.wrapperId = "id1";
+    myMenu.setClass('class1') ;
+    myMenu.setId('id1');
 
-    document.body.appendChild(firstMenu.render());
+    document.body.appendChild(myMenu.render());
 
 
     // Меню со вложенным
-    var superMenu = new SuperMenu(
-        [
-            {title: "item1", href: "#"},
-            {title: "item2", href: "#"},
-            [
-                {title: "subitem1", href: "#"},
-                {title: "subitem2", href: "#"},
-                {title: "subitem3", href: "#"}
-            ],
-            {title: "item3", href: "#"}
-        ]
+    var subMenu1 = new SubMenu(
+        [[
+            {title: "subitem1", href: "#"},
+            {title: "subitem2", href: "#"},
+            {title: "subitem3", href: "#"}
+        ], '2']
     );
 
-    superMenu.wrapperClass = "className";
-    superMenu.wrapperId = "id2";
+    document.body.appendChild(subMenu1.render());
 
-    document.body.appendChild(superMenu.render());
+    var subMenu2 = new SubMenu(
+       [[
+            {title: "subitem1", href: "#"},
+            {title: "subitem2", href: "#"},
+            {title: "subitem3", href: "#"}
+        ], '0']
+    );
+
+    document.body.appendChild(subMenu2.render());
 
 
 </script>
