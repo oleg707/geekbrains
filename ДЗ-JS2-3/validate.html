@@ -2,9 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Проверка формы</title>
+    <style>
+        td select,
+        td input {
+            width: 150px;
+        }
+
+        label {
+            display: block;
+        }
+
+        .error input{
+            background-color: #ff2d2d;
+        }
+
+        .good input{
+            background-color: greenyellow;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
 </head>
+<h1>Введите свои данные:</h1>
 <body>
-$END$
+<form>
+    <table >
+        <tr>
+            <td>Телефон</td>
+            <td>
+                <input name="tel" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>Ваш e-mail</td>
+            <td>
+                <input name="mail" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>Номер и серия паспорта</td>
+            <td>
+                <input name="passport" type="text">
+            </td>
+        </tr>
+    </table>
+
+    <input type  = "button" onclick = "validate(this.form)" value = "Проверить">
+    <input type  = "button" onclick = "resetAll(this.form)" value = "Очистить">
+</form>
+
+<script>
+    function showError(container, errorMessage) {
+        container.className = 'error';
+        var msgElem = document.createElement('span');
+        msgElem.className = "error-message";
+        msgElem.innerHTML = errorMessage;
+        container.appendChild(msgElem);
+    }
+
+    function resetError(container) {
+        container.className = '';
+        if (container.lastChild.className == "error-message") {
+            container.removeChild(container.lastChild);
+        }
+    }
+
+    function validate(form) {
+        var elems = form.elements;
+
+        resetError(elems.tel.parentNode);
+        if (!elems.tel.value) {
+            showError(elems.tel.parentNode, ' Введите телефон');
+        } else if (!/^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/.test(elems.tel.value)) {
+            showError(elems.tel.parentNode, 'Некорректно');
+        }  else elems.tel.parentNode.className = 'good';
+
+        resetError(elems.mail.parentNode);
+        if (!elems.mail.value) {
+            showError(elems.mail.parentNode, ' Введите e-mail.');
+        } else if (!/^.+@.{2,}\..{2,}$/i.test(elems.mail.value)) {
+            showError(elems.mail.parentNode, 'Некорректно');
+        }  else elems.mail.parentNode.className = 'good';
+
+        resetError(elems.passport.parentNode);
+        if (!elems.passport.value) {
+            showError(elems.passport.parentNode, 'Введите паспортные данные.');
+        } else if (!/^\d{2}\s\d{2}\s\d{6}$/.test(elems.passport.value)) {
+            showError(elems.passport.parentNode, 'Некорректно');
+        } else elems.passport.parentNode.className = 'good';
+    }
+    function resetAll(form) {
+        var elems = form.elements;
+        elems.tel.value = '';
+        elems.mail.value = '';
+        elems.passport.value = '';
+        resetError(elems.tel.parentNode);
+        resetError(elems.mail.parentNode);
+        resetError(elems.passport.parentNode);
+    }
+
+</script>
 </body>
 </html>
